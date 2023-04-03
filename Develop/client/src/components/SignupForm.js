@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-
+import { useMutation } from '@apollo/client';
 import { createUser } from '../utils/API';
 import Auth from '../utils/auth';
 
@@ -12,6 +12,11 @@ const SignupForm = () => {
   // set state for alert
   const [showAlert, setShowAlert] = useState(false);
 
+  const [createUser, { error, loading, data }] = useMutation(ADD_USER);
+
+  if (loading) return "Loading...";
+  if (error) return <pre>{error.message}</pre>
+  
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
